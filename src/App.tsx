@@ -31,6 +31,12 @@ function App() {
     if (results) console.log(results);
   }, [results]);
 
+  useEffect(() => {
+    return () => {
+      debouncedChangeHandler.cancel();
+    }
+  }, []);
+
   return (
     <div className="App">
       <div>
