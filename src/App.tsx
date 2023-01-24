@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import debounce from "lodash/debounce";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+const ITEMS_API_URL = 'https://example.com/api/items';
+const DEBOUNCE_DELAY = 500;
 
 function App() {
+  const [input, setInput] = useState('');
+
+  const handleChange = (e: any) => {
+    setInput(e.target.value);
+  };
+
+  useEffect(() => {
+    if (input) console.log('input:', input);
+  }, [input]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <input type='text' onChange={handleChange}/>
+      </div>
+      <div>
+
+      </div>
     </div>
   );
 }
