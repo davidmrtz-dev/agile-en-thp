@@ -1,25 +1,40 @@
 import './App.css';
 import debounce from "lodash/debounce";
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-const ITEMS_API_URL = 'https://example.com/api/items';
+import { useCallback, useEffect, useState } from 'react';
 const DEBOUNCE_DELAY = 500;
+const apiResults = ['Denver', 'Colorado', 'New York', 'California'];
 
 function App() {
   const [input, setInput] = useState('');
+  const [results, setResults] = useState<string []>([]);
 
-  const handleChange = (e: any) => {
-    setInput(e.target.value);
+  const handleChange = (event: any) => {
+    setInput(event.target.value);
   };
 
+  const debouncedChangeHandler = useCallback(
+    debounce(handleChange, DEBOUNCE_DELAY)
+  , []);
+
   useEffect(() => {
-    if (input) console.log('input:', input);
+    const fetchData = () => {
+      new Promise(resolve => setTimeout(resolve, 2000, apiResults)).then((response: any) => setResults(response));
+    };
+
+    if (input) {
+      console.log('input:', input);
+      fetchData();
+    }
   }, [input]);
+
+  useEffect(() => {
+    if (results) console.log(results);
+  }, [results]);
 
   return (
     <div className="App">
       <div>
-        <input type='text' onChange={handleChange}/>
+        <input type='text' onChange={debouncedChangeHandler}/>
       </div>
       <div>
 
